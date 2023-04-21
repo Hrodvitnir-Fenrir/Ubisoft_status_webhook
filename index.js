@@ -19,7 +19,7 @@ async function statusFormat(status) {
     const platform = platformMap[status.Platform] || "PC";
 
     const online = status.Status === "Online";
-    const value = online ? "🟢 En ligne" : "🔴 Maintenance";
+    const value = online ? "🟢 En ligne" : "🔴 Maintenance / Dégradation";
 
     return { name: platform, value };
 }
@@ -33,7 +33,7 @@ async function patchWebhook() {
 
     const disclamer = {
         name: "\u200b",
-        value: "*Les statuts sont récupéré directement depuis l'api d'Ubisoft.\nCe système est actuellement en bêta.*"
+        value: "*Les statuts sont récupérés directement depuis l'api d'Ubisoft.\nCe système est actuellement en bêta.*"
     };
 
     const data = {
