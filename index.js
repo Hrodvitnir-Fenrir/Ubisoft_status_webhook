@@ -1,9 +1,11 @@
 require("dotenv/config");
 const { default: axios } = require("axios");
 
+// https://game-status-api.ubisoft.com/v1/instances?appIds=e3d5ea9e-50bd-43b7-88bf-39794f4e3d40,fb4cc4c9-2063-461d-a1e8-84a7d36525fc,4008612d-3baf-49e4-957a-33066726a7bc,6e3c99c9-6c3f-43f4-b4f6-f1a3143f2764,76f580d5-7f50-47cc-bbc1-152d000bfe59
+
 async function getApiStatus() {
     try {
-        const response = await axios.get("https://game-status-api.ubisoft.com/v1/instances?appIds=e3d5ea9e-50bd-43b7-88bf-39794f4e3d40,fb4cc4c9-2063-461d-a1e8-84a7d36525fc,4008612d-3baf-49e4-957a-33066726a7bc");
+        const response = await axios.get("https://game-status-api.ubisoft.com/v1/instances?appIds=e3d5ea9e-50bd-43b7-88bf-39794f4e3d40,fb4cc4c9-2063-461d-a1e8-84a7d36525fc,4008612d-3baf-49e4-957a-33066726a7bc,6e3c99c9-6c3f-43f4-b4f6-f1a3143f2764,76f580d5-7f50-47cc-bbc1-152d000bfe59");
         return response.data;
     } catch (error) {
         return null;
@@ -15,7 +17,7 @@ async function statusFormat(status) {
         return { name: "Information non récupérable", value: "❓" };
     }
 
-    const platformMap = { XBOXONE: "Xbox", PS4: "Playstation" };
+    const platformMap = { XBOXONE: "Xbox one", "XBOX SERIES X": "Xbox X", PS4: "Playstation 4", PS5: "Playstation 5" };
     const platform = platformMap[status.Platform] || "PC";
 
     const online = status.Status === "Online";
@@ -55,7 +57,6 @@ async function patchWebhook() {
             }
         }]
     };
-    // console.log(allPlatformStatus);
     await axios.patch(process.env.WEBHOOK_TOKEN + "/messages/" + process.env.MESSAGE_ID, data);
 }
 
